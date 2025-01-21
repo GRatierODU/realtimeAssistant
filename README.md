@@ -15,7 +15,3 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 - **Name**: Guillaume Ratier
 - **Email**: grati001@odu.edu
 
----
-
-We hope this project enhances your academic experience at ODU. Feel free to contribute and share feedback!
-
