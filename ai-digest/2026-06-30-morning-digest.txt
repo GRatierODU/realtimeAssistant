@@ -1,0 +1,288 @@
+================================================================================
+AI MORNING DIGEST
+Tuesday, June 30, 2026
+================================================================================
+
+Coverage:  Last 24 hours (June 29, 6:00 AM UTC - June 30, 6:00 AM UTC)
+Compiled:  June 30, 2026
+Sources:   PHIA-validated only (UK intelligence standards + Ad Fontes green-box)
+Excluded:  Hyper-partisan outlets, low-reliability aggregators
+
+
+--------------------------------------------------------------------------------
+IMPACT LEGEND
+--------------------------------------------------------------------------------
+
+  [CRITICAL]  Global economy / geopolitics
+  [HIGH]      Major company / industry shift
+  [MODERATE]  US policy / regulation
+  [EMERGING]  Research & benchmarks
+
+  Scope tags:  [GLOBAL] [COMPANY] [POLICY] [RESEARCH]
+
+
+--------------------------------------------------------------------------------
+PHIA SOURCE VALIDATION (per story)
+--------------------------------------------------------------------------------
+
+  Independence       - Primary reporting, wire services; no partisan framing
+  Evidence source    - Company announcements, Reuters, official documents
+  Consensus          - Multiple independent corroborations
+  Currency           - Published within 24-hour window
+  Limitations        - Beta status and unverified claims flagged
+  Statistical claims - Cross-checked against primary sources
+
+
+================================================================================
+STORY 1
+================================================================================
+
+Anthropic ships Claude Sonnet 5 - flagship-class agents at mid-tier price
+
+  Impact:          [HIGH] -> [COMPANY] Anthropic / Enterprise AI market
+  PHIA confidence: High (primary source + independent tech outlets)
+  Probability:     Almost certain (official launch, live today)
+
+Anthropic released Claude Sonnet 5, its most agentic Sonnet model yet. It can
+plan, use browsers and terminals, and run autonomous workflows that previously
+required Opus-class models. Now the default for Free and Pro users.
+
+  API model:  claude-sonnet-5
+  Pricing:    $2/M input, $10/M output (intro through Aug 31, 2026)
+              Then $3/M input, $15/M output
+
+Why it matters:
+  Compresses the gap between mid-tier and flagship models. Intensifies price
+  competition with OpenAI ahead of both companies' expected IPOs.
+
+Sources:
+  - Anthropic (primary): https://www.anthropic.com/news/claude-sonnet-5
+  - The Verge: https://www.theverge.com/ai-artificial-intelligence/959686/anthropics-claude-sonnet-5-is-here
+
+
+================================================================================
+STORY 2
+================================================================================
+
+Anthropic launches Claude Science - AI workbench for researchers
+
+  Impact:          [HIGH] -> [RESEARCH] Scientific research / Pharma vertical
+  PHIA confidence: High (primary + TechCrunch corroboration)
+  Probability:     Almost certain (beta live today)
+
+Anthropic introduced Claude Science, a macOS/Linux workbench integrating 60+
+scientific databases, MCP connectors, and HPC clusters (SSH/Modal). Produces
+auditable research artifacts. This is NOT a new model - it runs standard Claude
+including Opus 4.8. Beta on Pro, Max, Team, and Enterprise plans.
+
+  Funding: Up to 50 research projects receive up to $30,000 in credits.
+           Applications close July 15, 2026.
+
+Why it matters:
+  Signals Anthropic's vertical strategy (like Claude Code for software).
+  Directly competes with OpenAI's science benchmarking push on the same day.
+
+Sources:
+  - Anthropic (primary): https://www.anthropic.com/news/claude-science-ai-workbench
+  - TechCrunch: https://techcrunch.com/2026/06/30/anthropics-claude-science-bets-on-workflow-not-a-new-model-to-win-over-scientists/
+
+
+================================================================================
+STORY 3
+================================================================================
+
+OpenAI releases GeneBench-Pro - biology benchmark for AI agents
+
+  Impact:          [EMERGING] -> [RESEARCH] AI-for-science evaluation
+  PHIA confidence: High (primary source + public Hugging Face dataset)
+  Probability:     Almost certain
+
+OpenAI published GeneBench-Pro: 129 problems across genomics, quantitative
+biology, and translational medicine. Tests judgment-heavy computational biology.
+
+  GPT-5.6 Sol score:  28.7% pass rate (31.5% with Pro mode)
+  Public data:         10 case studies on Hugging Face
+
+Why it matters:
+  Sets a measurable bar for AI scientific reasoning. Frontier models still fail
+  most problems - tempering hype about AI replacing researchers.
+
+Sources:
+  - OpenAI (primary): https://openai.com/index/introducing-genebench-pro/
+  - Hugging Face: https://huggingface.co/datasets/ajh-oai/genebench-pro-public-package
+
+
+================================================================================
+STORY 4
+================================================================================
+
+Google opens Gemini Omni Flash and Nano Banana 2 Lite APIs to developers
+
+  Impact:          [HIGH] -> [COMPANY] Google / Creative and enterprise media
+  PHIA confidence: High (Google blog + API changelog)
+  Probability:     Almost certain (public preview live)
+
+Google released two generative media models to developers:
+
+  Gemini Omni Flash (gemini-omni-flash-preview)
+    - Conversational video generation and editing
+    - 3-10 seconds at 720p
+    - $0.10 per second of output
+
+  Nano Banana 2 Lite (gemini-3.1-flash-lite-image)
+    - Ultra-fast image generation
+    - $0.034 per image at 1K resolution
+
+Both include SynthID watermarks and C2PA credentials. Available via Gemini API,
+Google AI Studio, and Gemini Enterprise Agent Platform.
+
+Why it matters:
+  Brings Google's I/O consumer demos into production APIs. Undercuts video
+  generation costs. Enables chained image-to-video workflows for enterprises.
+
+Sources:
+  - Google Blog (primary): https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni-flash-nano-banana-2-lite/
+  - Gemini API Changelog: https://ai.google.dev/gemini-api/docs/changelog
+
+
+================================================================================
+STORY 5
+================================================================================
+
+EU receives 76 bids for 20 billion euro AI gigafactory program
+
+  Impact:          [CRITICAL] -> [GLOBAL] EU tech sovereignty / AI infrastructure
+  PHIA confidence: High (Reuters wire, official EU press conference)
+  Probability:     Highly likely (official EU announcement)
+
+EU tech chief Henna Virkkunen announced 76 submissions from companies across
+16 member states and 60 sites to build four AI gigafactories. Each facility
+would have roughly 100,000 state-of-the-art AI chips, backed by 20 billion
+euros in EU funding. Applicants collectively plan to acquire 3+ million
+latest-generation GPUs.
+
+Why it matters:
+  Europe's most concrete step toward reducing dependence on US hyperscalers.
+  Signals massive capital flowing into sovereign AI compute.
+
+Sources:
+  - Reuters: https://www.reuters.com/sustainability/boards-policy-regulation/europes-ai-gigafactory-push-attracts-76-bids-eu-tech-chief-says-2025-06-30/
+
+
+================================================================================
+STORY 6
+================================================================================
+
+Meituan open-sources LongCat-2.0 - 1.6T-parameter model on domestic chips
+
+  Impact:          [CRITICAL] -> [GLOBAL] US-China chip race / Geopolitics
+  PHIA confidence: Moderate (company claim; chip vendor not named)
+  Probability:     Likely (weights released; chip claim unverified)
+
+Meituan open-sourced LongCat-2.0, a 1.6-trillion-parameter model claiming
+end-to-end training on a 50,000-chip domestic cluster. Meituan reports 59.5 on
+SWE-bench Pro (vs. GPT-5.5's 58.6). Use of Huawei's HCCL library suggests
+domestic silicon involvement. Specific chips were not disclosed.
+
+Limitations:
+  Software ecosystem maturity vs. NVIDIA acknowledged by Meituan.
+  Domestic chip identity unconfirmed by third parties.
+
+Why it matters:
+  If verified, demonstrates China's ability to train frontier-scale models
+  without NVIDIA's latest hardware - directly challenging US export controls.
+
+Sources:
+  - The Next Web: https://thenextweb.com/news/chinas-meituan-says-its-new-ai-model-was-trained-on-domestic-chips
+  - South China Morning Post: https://www.scmp.com/tech/tech-trends/article/3358854/china-debuts-biggest-ai-model-trained-local-chips-meituan-releases-longcat-20
+
+
+================================================================================
+STORY 7
+================================================================================
+
+Microsoft Research unveils Memora - agent memory architecture
+
+  Impact:          [EMERGING] -> [RESEARCH] AI agents / Infrastructure
+  PHIA confidence: High (peer-reviewed ICML 2026, open-source code)
+  Probability:     Almost certain (published research; not yet in products)
+
+Microsoft Research released Memora, a harmonic memory framework that decouples
+storage from retrieval using abstractions and cue anchors.
+
+  LoCoMo (600-turn dialogues):     86.3% accuracy
+  LongMemEval (115K-token context): 87.4% accuracy
+  Token reduction:                  up to 98% vs. full-context inference
+
+Why it matters:
+  Addresses a core bottleneck for long-running AI agents. Code is on GitHub but
+  not yet integrated into Copilot products.
+
+Sources:
+  - Microsoft Research (primary): https://www.microsoft.com/en-us/research/blog/memora-a-harmonic-memory-representation-balancing-abstraction-and-specificity/
+  - InfoWorld: https://www.infoworld.com/article/4191031/microsoft-unveils-memora-to-tackle-ai-agents-memory-problem.html
+
+
+================================================================================
+STORY 8
+================================================================================
+
+US lawmakers propose ban on selling AI chatbot health data
+
+  Impact:          [MODERATE] -> [POLICY] US privacy regulation
+  PHIA confidence: Moderate (bill announced, not yet introduced or passed)
+  Probability:     Realistic possibility (uncertain Congressional path)
+
+Sen. Elizabeth Warren (D-MA) and Rep. Mary Gay Scanlon (D-PA) plan to introduce
+an updated Health and Location Data Protection Act. It would ban sale of health
+and location data - including information entered into AI chatbots - to data
+brokers. Would empower FTC enforcement with $1 billion over 10 years.
+
+Note: Legislative proposal from Democratic lawmakers. Reported factually per PHIA
+independence standard. Not yet law.
+
+Why it matters:
+  First major federal proposal specifically targeting AI health data
+  monetization as users upload medical records to ChatGPT, Claude, and similar
+  tools.
+
+Sources:
+  - The Verge (June 29): https://www.theverge.com/ai-artificial-intelligence/959033/health-location-data-protection-act-ai-warren-scanlon
+
+
+--------------------------------------------------------------------------------
+IMPACT SUMMARY
+--------------------------------------------------------------------------------
+
+  [COMPANY] Anthropic     Sonnet 5, Claude Science          [HIGH]
+  [COMPANY] OpenAI        GeneBench-Pro                     [EMERGING]
+  [COMPANY] Google        Omni Flash, Nano Banana 2 Lite    [HIGH]
+  [COMPANY] Microsoft     Memora                            [EMERGING]
+  [COMPANY] Meituan       LongCat-2.0                       [CRITICAL]
+  [GLOBAL]  Geopolitics   EU gigafactories, China chips     [CRITICAL]
+  [POLICY]  US            Health data privacy bill          [MODERATE]
+  [RESEARCH]              GeneBench-Pro, Memora             [EMERGING]
+
+
+--------------------------------------------------------------------------------
+WATCH NEXT (24-72 HOURS)
+--------------------------------------------------------------------------------
+
+  1. IPO signals - Anthropic and OpenAI pre-IPO; Sonnet 5 pricing may be timed
+     for valuation ahead of public offerings.
+
+  2. GPT-5.6 general availability - OpenAI says broader rollout coming in
+     the weeks ahead after government-vetted preview.
+
+  3. EU gigafactory shortlist - Official call for proposals expected end of
+     2026.
+
+  4. LongCat-2.0 verification - Independent benchmarks needed on domestic-chip
+     training claims.
+
+
+================================================================================
+END OF DIGEST
+Methodology: PHIA Common Analytical Standards (UK Gov) + Ad Fontes green-box
+sources. Political opinion outlets excluded.
+================================================================================
