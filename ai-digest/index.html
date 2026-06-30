@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Morning Digest — June 30, 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0c0f14;
+      --surface: #141a24;
+      --surface-2: #1c2433;
+      --border: #2a3548;
+      --text: #e8edf5;
+      --text-muted: #8b9bb5;
+      --accent: #5b8def;
+      --critical: #ef4444;
+      --high: #f97316;
+      --moderate: #eab308;
+      --emerging: #22c55e;
+      --phia-green: #22c55e;
+      --phia-amber: #f59e0b;
+      --phia-red: #ef4444;
+      --radius: 12px;
+      --shadow: 0 4px 24px rgba(0,0,0,.35);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(91,141,239,.12), transparent),
+        radial-gradient(ellipse 60% 40% at 100% 50%, rgba(34,197,94,.06), transparent);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      margin-bottom: 2.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(91,141,239,.12);
+      border: 1px solid rgba(91,141,239,.25);
+      padding: .35rem .75rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      margin-bottom: .5rem;
+    }
+
+    .meta {
+      color: var(--text-muted);
+      font-size: .95rem;
+    }
+
+    .meta span { margin-right: 1.25rem; }
+
+    /* Filters */
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-bottom: 2rem;
+    }
+
+    .filter-btn {
+      font-family: inherit;
+      font-size: .85rem;
+      padding: .5rem 1rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      border-color: var(--accent);
+      color: var(--text);
+      background: rgba(91,141,239,.1);
+    }
+
+    /* Impact legend */
+    .legend-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .legend-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+    }
+
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .legend-dot.critical { background: var(--critical); box-shadow: 0 0 12px var(--critical); }
+    .legend-dot.high { background: var(--high); box-shadow: 0 0 12px var(--high); }
+    .legend-dot.moderate { background: var(--moderate); box-shadow: 0 0 12px var(--moderate); }
+    .legend-dot.emerging { background: var(--emerging); box-shadow: 0 0 12px var(--emerging); }
+
+    /* PHIA Wheel */
+    .phia-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 2.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .phia-section h2 {
+      font-size: 1.25rem;
+      margin-bottom: .5rem;
+    }
+
+    .phia-section > p {
+      color: var(--text-muted);
+      font-size: .9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .phia-wheel-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .phia-wheel {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      position: relative;
+      background: conic-gradient(
+        var(--phia-green) 0deg 60deg,
+        var(--phia-amber) 60deg 120deg,
+        var(--phia-green) 120deg 180deg,
+        var(--phia-amber) 180deg 240deg,
+        var(--phia-green) 240deg 300deg,
+        var(--phia-amber) 300deg 360deg
+      );
+      box-shadow: 0 0 40px rgba(34,197,94,.15);
+    }
+
+    .phia-wheel::after {
+      content: 'PHIA';
+      position: absolute;
+      inset: 35%;
+      background: var(--surface-2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: .9rem;
+      letter-spacing: .1em;
+      color: var(--text-muted);
+    }
+
+    .phia-dimensions {
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .phia-dim {
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+      margin-bottom: .75rem;
+      font-size: .88rem;
+    }
+
+    .phia-dim-bar {
+      width: 4px;
+      height: 100%;
+      min-height: 36px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .phia-dim-bar.green { background: var(--phia-green); }
+    .phia-dim-bar.amber { background: var(--phia-amber); }
+
+    .phia-dim strong { display: block; margin-bottom: .15rem; }
+
+    .phia-dim span { color: var(--text-muted); font-size: .82rem; }
+
+    /* Impact matrix */
+    .matrix-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .matrix-section h2 { font-size: 1.1rem; margin-bottom: 1rem; }
+
+    .impact-matrix {
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+      aspect-ratio: 1;
+      margin: 0 auto;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .matrix-axis {
+      position: absolute;
+      font-size: .65rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .matrix-axis.y { left: .5rem; top: 50%; transform: rotate(-90deg) translateX(-50%); transform-origin: left center; }
+    .matrix-axis.x { bottom: .5rem; left: 50%; transform: translateX(-50%); }
+
+    .matrix-quadrant-label {
+      position: absolute;
+      font-size: .6rem;
+      color: var(--text-muted);
+      opacity: .7;
+    }
+
+    .matrix-quadrant-label.q1 { top: 12%; right: 8%; }
+    .matrix-quadrant-label.q2 { top: 12%; left: 8%; }
+    .matrix-quadrant-label.q3 { bottom: 12%; left: 8%; }
+    .matrix-quadrant-label.q4 { bottom: 12%; right: 8%; }
+
+    .matrix-grid {
+      position: absolute;
+      inset: 10%;
+      border-left: 1px dashed var(--border);
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .matrix-dot {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      transform: translate(-50%, 50%);
+      cursor: pointer;
+      transition: transform .2s;
+    }
+
+    .matrix-dot:hover { transform: translate(-50%, 50%) scale(1.4); z-index: 2; }
+
+    .matrix-dot.critical { background: var(--critical); box-shadow: 0 0 8px var(--critical); }
+    .matrix-dot.high { background: var(--high); box-shadow: 0 0 8px var(--high); }
+    .matrix-dot.moderate { background: var(--moderate); }
+    .matrix-dot.emerging { background: var(--emerging); }
+
+    .matrix-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem 1rem;
+      justify-content: center;
+      margin-top: 1rem;
+      font-size: .75rem;
+      color: var(--text-muted);
+    }
+
+    .matrix-legend span { display: flex; align-items: center; gap: .35rem; }
+
+    /* Story cards */
+    .stories-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1.25rem;
+    }
+
+    .stories-header h2 { font-size: 1.35rem; }
+
+    .story-count { color: var(--text-muted); font-size: .9rem; }
+
+    .story-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: var(--shadow);
+      transition: border-color .2s;
+    }
+
+    .story-card:hover { border-color: rgba(91,141,239,.4); }
+
+    .story-card.hidden { display: none; }
+
+    .story-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .story-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .75rem;
+      color: var(--text-muted);
+      margin-bottom: .25rem;
+    }
+
+    .story-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      line-height: 1.35;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .impact-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+
+    .impact-tag {
+      font-size: .75rem;
+      font-weight: 600;
+      padding: .35rem .65rem;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .impact-tag.severity-critical { background: rgba(239,68,68,.15); color: #fca5a5; border: 1px solid rgba(239,68,68,.3); }
+    .impact-tag.severity-high { background: rgba(249,115,22,.15); color: #fdba74; border: 1px solid rgba(249,115,22,.3); }
+    .impact-tag.severity-moderate { background: rgba(234,179,8,.15); color: #fde047; border: 1px solid rgba(234,179,8,.3); }
+    .impact-tag.severity-emerging { background: rgba(34,197,94,.15); color: #86efac; border: 1px solid rgba(34,197,94,.3); }
+
+    .impact-tag.scope { background: var(--surface-2); color: var(--text-muted); border: 1px solid var(--border); font-weight: 500; }
+
+    .story-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: .75rem;
+      margin-bottom: 1rem;
+      padding: .75rem 1rem;
+      background: var(--surface-2);
+      border-radius: 8px;
+      font-size: .85rem;
+    }
+
+    .story-meta dt { color: var(--text-muted); font-weight: 500; margin-bottom: .15rem; }
+    .story-meta dd { font-weight: 500; }
+
+    .confidence-high { color: var(--emerging); }
+    .confidence-moderate { color: var(--moderate); }
+
+    .story-body { color: var(--text-muted); font-size: .95rem; margin-bottom: 1rem; }
+    .story-body strong { color: var(--text); }
+
+    .why-matters {
+      padding: .75rem 1rem;
+      border-left: 3px solid var(--accent);
+      background: rgba(91,141,239,.06);
+      border-radius: 0 8px 8px 0;
+      font-size: .9rem;
+      margin-bottom: 1rem;
+    }
+
+    .why-matters strong { color: var(--accent); }
+
+    .limitations {
+      font-size: .85rem;
+      color: var(--moderate);
+      margin-bottom: 1rem;
+      font-style: italic;
+    }
+
+    .sources {
+      font-size: .85rem;
+    }
+
+    .sources strong { color: var(--text-muted); font-weight: 500; display: block; margin-bottom: .5rem; }
+
+    .sources a {
+      color: var(--accent);
+      text-decoration: none;
+      display: block;
+      margin-bottom: .35rem;
+    }
+
+    .sources a:hover { text-decoration: underline; }
+
+    .sources .source-type { color: var(--text-muted); font-size: .8rem; }
+
+    /* Summary table */
+    .summary-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-top: 2.5rem;
+      overflow-x: auto;
+    }
+
+    .summary-section h2 { font-size: 1.1rem; margin-bottom: 1rem; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .9rem;
+    }
+
+    th, td {
+      text-align: left;
+      padding: .75rem 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th { color: var(--text-muted); font-weight: 500; font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; }
+
+    tr:last-child td { border-bottom: none; }
+
+    .watch-list {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .watch-list h2 { font-size: 1.1rem; margin-bottom: 1rem; }
+
+    .watch-list ol {
+      padding-left: 1.25rem;
+      color: var(--text-muted);
+      font-size: .95rem;
+    }
+
+    .watch-list li { margin-bottom: .5rem; }
+    .watch-list strong { color: var(--text); }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: .8rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 1.25rem 1rem 3rem; }
+      .phia-wheel { width: 180px; height: 180px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="badge">AI Morning Digest</div>
+      <h1>Tuesday, June 30, 2026</h1>
+      <div class="meta">
+        <span>📅 Coverage: June 29 6:00 UTC → June 30 6:00 UTC</span>
+        <span>✓ PHIA-validated sources</span>
+      </div>
+    </header>
+
+    <div class="legend-grid">
+      <div class="legend-card"><span class="legend-dot critical"></span><div><strong>Critical</strong><br><span style="color:var(--text-muted);font-size:.85rem">Global economy / geopolitics</span></div></div>
+      <div class="legend-card"><span class="legend-dot high"></span><div><strong>High</strong><br><span style="color:var(--text-muted);font-size:.85rem">Major company / industry shift</span></div></div>
+      <div class="legend-card"><span class="legend-dot moderate"></span><div><strong>Moderate</strong><br><span style="color:var(--text-muted);font-size:.85rem">US policy / regulation</span></div></div>
+      <div class="legend-card"><span class="legend-dot emerging"></span><div><strong>Emerging</strong><br><span style="color:var(--text-muted);font-size:.85rem">Research & benchmarks</span></div></div>
+    </div>
+
+    <div class="filters" id="filters">
+      <button class="filter-btn active" data-filter="all">All stories</button>
+      <button class="filter-btn" data-filter="critical">🔴 Critical</button>
+      <button class="filter-btn" data-filter="high">🟠 High</button>
+      <button class="filter-btn" data-filter="moderate">🟡 Moderate</button>
+      <button class="filter-btn" data-filter="emerging">🟢 Emerging</button>
+      <button class="filter-btn" data-filter="company">🏢 Company</button>
+      <button class="filter-btn" data-filter="global">🌍 Global</button>
+      <button class="filter-btn" data-filter="policy">🇺🇸 Policy</button>
+    </div>
+
+    <section class="phia-section">
+      <h2>PHIA Source Validation</h2>
+      <p>UK Professional Head of Intelligence Assessment standards + Ad Fontes green-box outlets. Politically biased and low-reliability sources excluded.</p>
+      <div class="phia-wheel-wrap">
+        <div class="phia-wheel" aria-hidden="true"></div>
+        <div class="phia-dimensions">
+          <div class="phia-dim"><div class="phia-dim-bar green"></div><div><strong>Independence</strong><span>Primary reporting, wire services — no partisan framing</span></div></div>
+          <div class="phia-dim"><div class="phia-dim-bar green"></div><div><strong>Evidence source</strong><span>Company announcements, Reuters, official docs</span></div></div>
+          <div class="phia-dim"><div class="phia-dim-bar green"></div><div><strong>Consensus</strong><span>Multiple independent corroborations</span></div></div>
+          <div class="phia-dim"><div class="phia-dim-bar amber"></div><div><strong>Currency</strong><span>Published within 24-hour window</span></div></div>
+          <div class="phia-dim"><div class="phia-dim-bar amber"></div><div><strong>Limitations stated</strong><span>Beta status, benchmarks, unverified claims flagged</span></div></div>
+          <div class="phia-dim"><div class="phia-dim-bar green"></div><div><strong>Statistical claims</strong><span>Cross-checked against primary sources</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="matrix-section">
+      <h2>Impact Matrix</h2>
+      <div class="impact-matrix" id="impact-matrix">
+        <span class="matrix-axis y">Urgency ↑</span>
+        <span class="matrix-axis x">Reach →</span>
+        <span class="matrix-quadrant-label q1">Act Now</span>
+        <span class="matrix-quadrant-label q2">Monitor</span>
+        <span class="matrix-quadrant-label q3">Background</span>
+        <span class="matrix-quadrant-label q4">Industry Shift</span>
+        <div class="matrix-grid" id="matrix-dots"></div>
+      </div>
+      <div class="matrix-legend" id="matrix-legend"></div>
+    </section>
+
+    <div class="stories-header">
+      <h2>Top Stories</h2>
+      <span class="story-count" id="story-count">8 stories</span>
+    </div>
+
+    <div id="stories"></div>
+
+    <section class="summary-section">
+      <h2>Impact by Area</h2>
+      <table>
+        <thead><tr><th>Area</th><th>Stories</th><th>Severity</th></tr></thead>
+        <tbody>
+          <tr><td>🏢 Anthropic</td><td>Claude Sonnet 5, Claude Science</td><td><span class="impact-tag severity-high" style="display:inline-block">High</span></td></tr>
+          <tr><td>🏢 OpenAI</td><td>GeneBench-Pro</td><td><span class="impact-tag severity-emerging" style="display:inline-block">Emerging</span></td></tr>
+          <tr><td>🏢 Google</td><td>Omni Flash, Nano Banana 2 Lite</td><td><span class="impact-tag severity-high" style="display:inline-block">High</span></td></tr>
+          <tr><td>🏢 Microsoft</td><td>Memora</td><td><span class="impact-tag severity-emerging" style="display:inline-block">Emerging</span></td></tr>
+          <tr><td>🏢 Meituan</td><td>LongCat-2.0</td><td><span class="impact-tag severity-critical" style="display:inline-block">Critical</span></td></tr>
+          <tr><td>🌍 Global</td><td>EU gigafactories, China chips</td><td><span class="impact-tag severity-critical" style="display:inline-block">Critical</span></td></tr>
+          <tr><td>🇺🇸 US Policy</td><td>Health data bill</td><td><span class="impact-tag severity-moderate" style="display:inline-block">Moderate</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="watch-list">
+      <h2>Watch Next (24–72 hours)</h2>
+      <ol>
+        <li><strong>IPO signals</strong> — Anthropic and OpenAI pre-IPO; Sonnet 5 pricing may be strategically timed.</li>
+        <li><strong>GPT-5.6 general availability</strong> — Broader rollout after government-vetted preview.</li>
+        <li><strong>EU gigafactory shortlist</strong> — Official call for proposals expected end of 2026.</li>
+        <li><strong>LongCat-2.0 verification</strong> — Independent benchmarks on domestic-chip claims.</li>
+      </ol>
+    </section>
+
+    <footer>
+      Methodology: PHIA Common Analytical Standards (UK Gov) + Ad Fontes Media Bias Chart green-box sources.
+    </footer>
+  </div>
+
+  <script>
+    const STORIES = [
+      {
+        id: 1,
+        title: "Anthropic ships Claude Sonnet 5 — flagship-class agents at mid-tier price",
+        severity: "high",
+        scope: "Anthropic / Enterprise AI",
+        scopeIcon: "🏢",
+        categories: ["high", "company"],
+        confidence: "High",
+        confidenceClass: "confidence-high",
+        probability: "Almost certain",
+        matrix: { x: 0.75, y: 0.85, label: "Sonnet 5" },
+        body: "Anthropic released <strong>Claude Sonnet 5</strong>, its most agentic Sonnet model — planning, browser/terminal tools, autonomous workflows. Default for Free/Pro users. API: <code>claude-sonnet-5</code>.",
+        pricing: "Intro $2/M input, $10/M output through Aug 31, 2026; then $3/$15.",
+        why: "Compresses mid-tier vs flagship gap; intensifies price war with OpenAI ahead of IPOs.",
+        sources: [
+          { url: "https://www.anthropic.com/news/claude-sonnet-5", label: "Anthropic — Introducing Claude Sonnet 5", type: "Primary" },
+          { url: "https://www.theverge.com/ai-artificial-intelligence/959686/anthropics-claude-sonnet-5-is-here", label: "The Verge", type: "Green-box tech press" }
+        ]
+      },
+      {
+        id: 2,
+        title: "Anthropic launches Claude Science — AI workbench for researchers",
+        severity: "high",
+        scope: "Scientific research / Pharma",
+        scopeIcon: "🔬",
+        categories: ["high", "company"],
+        confidence: "High",
+        confidenceClass: "confidence-high",
+        probability: "Almost certain",
+        matrix: { x: 0.65, y: 0.80, label: "Claude Science" },
+        body: "<strong>Claude Science</strong> integrates 60+ databases, MCP connectors, HPC (SSH/Modal), auditable artifacts. Not a new model — runs standard Claude. Beta on Pro, Max, Team, Enterprise.",
+        pricing: "Up to 50 projects get $30K credits (apply by July 15).",
+        why: "Vertical strategy mirroring Claude Code; competes with OpenAI's science push same day.",
+        sources: [
+          { url: "https://www.anthropic.com/news/claude-science-ai-workbench", label: "Anthropic — Claude Science", type: "Primary" },
+          { url: "https://techcrunch.com/2026/06/30/anthropics-claude-science-bets-on-workflow-not-a-new-model-to-win-over-scientists/", label: "TechCrunch", type: "Independent corroboration" }
+        ]
+      },
+      {
+        id: 3,
+        title: "OpenAI releases GeneBench-Pro — biology benchmark for AI agents",
+        severity: "emerging",
+        scope: "AI-for-science evaluation",
+        scopeIcon: "🔬",
+        categories: ["emerging", "company"],
+        confidence: "High",
+        confidenceClass: "confidence-high",
+        probability: "Almost certain",
+        matrix: { x: 0.45, y: 0.55, label: "GeneBench-Pro" },
+        body: "<strong>GeneBench-Pro</strong>: 129 problems across genomics, quantitative biology, translational medicine. GPT-5.6 Sol: <strong>28.7%</strong> pass (31.5% Pro mode). 10 case studies on Hugging Face.",
+        why: "Measurable bar for AI scientific reasoning; frontier models still fail most problems.",
+        sources: [
+          { url: "https://openai.com/index/introducing-genebench-pro/", label: "OpenAI — GeneBench-Pro", type: "Primary" },
+          { url: "https://huggingface.co/datasets/ajh-oai/genebench-pro-public-package", label: "Hugging Face dataset", type: "Auditable" }
+        ]
+      },
+      {
+        id: 4,
+        title: "Google opens Gemini Omni Flash & Nano Banana 2 Lite APIs",
+        severity: "high",
+        scope: "Google / Creative & enterprise media",
+        scopeIcon: "🏢",
+        categories: ["high", "company"],
+        confidence: "High",
+        confidenceClass: "confidence-high",
+        probability: "Almost certain",
+        matrix: { x: 0.70, y: 0.75, label: "Omni Flash" },
+        body: "<strong>Omni Flash</strong> (<code>gemini-omni-flash-preview</code>): video gen/editing, 3–10s 720p, <strong>$0.10/sec</strong>. <strong>Nano Banana 2 Lite</strong>: images at <strong>$0.034/image</strong>. SynthID + C2PA watermarks.",
+        why: "Production APIs from I/O demos; undercuts video costs; image→video workflows for enterprises.",
+        sources: [
+          { url: "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni-flash-nano-banana-2-lite/", label: "Google Blog", type: "Primary" },
+          { url: "https://ai.google.dev/gemini-api/docs/changelog", label: "Gemini API Changelog", type: "Official docs" }
+        ]
+      },
+      {
+        id: 5,
+        title: "EU receives 76 bids for €20B AI gigafactory program",
+        severity: "critical",
+        scope: "EU tech sovereignty / Global infrastructure",
+        scopeIcon: "🌍",
+        categories: ["critical", "global"],
+        confidence: "High",
+        confidenceClass: "confidence-high",
+        probability: "Highly likely",
+        matrix: { x: 0.90, y: 0.88, label: "EU Gigafactories" },
+        body: "EU tech chief announced <strong>76 submissions</strong> across 16 member states, 60 sites. Four gigafactories (~100K chips each), <strong>€20B</strong> funding. Applicants plan <strong>3M+</strong> latest-gen GPUs.",
+        why: "Europe's concrete step toward reducing US hyperscaler dependence; massive sovereign AI compute investment.",
+        sources: [
+          { url: "https://www.reuters.com/sustainability/boards-policy-regulation/europes-ai-gigafactory-push-attracts-76-bids-eu-tech-chief-says-2025-06-30/", label: "Reuters", type: "Wire service" }
+        ]
+      },
+      {
+        id: 6,
+        title: "Meituan open-sources LongCat-2.0 on domestic Chinese chips",
+        severity: "critical",
+        scope: "US-China chip race / Geopolitics",
+        scopeIcon: "🌍",
+        categories: ["critical", "global", "company"],
+        confidence: "Moderate",
+        confidenceClass: "confidence-moderate",
+        probability: "Likely",
+        matrix: { x: 0.85, y: 0.82, label: "LongCat-2.0" },
+        body: "<strong>LongCat-2.0</strong>: 1.6T parameters, trained on 50K domestic chips (vendor unnamed). 59.5 SWE-bench Pro. Huawei HCCL suggests domestic silicon.",
+        limitations: "Chip identity unconfirmed; NVIDIA ecosystem gap acknowledged by Meituan.",
+        why: "If verified, challenges US export controls — frontier training without latest NVIDIA hardware.",
+        sources: [
+          { url: "https://thenextweb.com/news/chinas-meituan-says-its-new-ai-model-was-trained-on-domestic-chips", label: "The Next Web", type: "Tech press" },
+          { url: "https://www.scmp.com/tech/tech-trends/article/3358854/china-debuts-biggest-ai-model-trained-local-chips-meituan-releases-longcat-20", label: "South China Morning Post", type: "Regional wire" }
+        ]
+      },
+      {
+        id: 7,
+        title: "Microsoft Research unveils Memora — agent memory architecture",
+        severity: "emerging",
+        scope: "AI agents / Infrastructure",
+        scopeIcon: "🔬",
+        categories: ["emerging", "company"],
+        confidence: "High",
+        confidenceClass: "confidence-high",
+        probability: "Almost certain",
+        matrix: { x: 0.50, y: 0.60, label: "Memora" },
+        body: "<strong>Memora</strong> (ICML 2026): harmonic memory via abstractions + cue anchors. <strong>86.3%</strong> LoCoMo, <strong>87.4%</strong> LongMemEval accuracy; up to <strong>98%</strong> fewer tokens vs full context.",
+        why: "Core bottleneck for long-running agents; code on GitHub, not yet in Copilot.",
+        sources: [
+          { url: "https://www.microsoft.com/en-us/research/blog/memora-a-harmonic-memory-representation-balancing-abstraction-and-specificity/", label: "Microsoft Research", type: "Primary" },
+          { url: "https://www.infoworld.com/article/4191031/microsoft-unveils-memora-to-tackle-ai-agents-memory-problem.html", label: "InfoWorld", type: "Tech press" }
+        ]
+      },
+      {
+        id: 8,
+        title: "US lawmakers propose ban on selling AI chatbot health data",
+        severity: "moderate",
+        scope: "US privacy regulation",
+        scopeIcon: "🇺🇸",
+        categories: ["moderate", "policy"],
+        confidence: "Moderate",
+        confidenceClass: "confidence-moderate",
+        probability: "Realistic possibility",
+        matrix: { x: 0.60, y: 0.50, label: "Health Data Bill" },
+        body: "Warren/Scanlon plan updated <strong>Health and Location Data Protection Act</strong> — bans sale of health/location data from AI chatbots to brokers. $1B FTC enforcement over 10 years.",
+        why: "First major federal proposal targeting AI health data monetization.",
+        limitations: "Legislative proposal only; Congressional path uncertain. Reported per PHIA independence standard.",
+        sources: [
+          { url: "https://www.theverge.com/ai-artificial-intelligence/959033/health-location-data-protection-act-ai-warren-scanlon", label: "The Verge", type: "Green-box, June 29" }
+        ]
+      }
+    ];
+
+    const severityLabels = { critical: "Critical", high: "High", moderate: "Moderate", emerging: "Emerging" };
+
+    function renderStories(filter = "all") {
+      const container = document.getElementById("stories");
+      const filtered = filter === "all" ? STORIES : STORIES.filter(s => s.categories.includes(filter));
+      document.getElementById("story-count").textContent = `${filtered.length} ${filtered.length === 1 ? "story" : "stories"}`;
+
+      container.innerHTML = filtered.map(s => `
+        <article class="story-card" data-categories="${s.categories.join(" ")}">
+          <div class="story-header">
+            <div>
+              <div class="story-number">#${String(s.id).padStart(2, "0")}</div>
+              <h3 class="story-title">${s.title}</h3>
+            </div>
+            <div class="impact-tags">
+              <span class="impact-tag severity-${s.severity}">${severityLabels[s.severity]}</span>
+              <span class="impact-tag scope">${s.scopeIcon} ${s.scope}</span>
+            </div>
+          </div>
+          <dl class="story-meta">
+            <div><dt>PHIA Confidence</dt><dd class="${s.confidenceClass}">${s.confidence}</dd></div>
+            <div><dt>Probability</dt><dd>${s.probability}</dd></div>
+          </dl>
+          <div class="story-body">${s.body}</div>
+          ${s.pricing ? `<div class="story-body"><strong>Pricing:</strong> ${s.pricing}</div>` : ""}
+          <div class="why-matters"><strong>Why it matters:</strong> ${s.why}</div>
+          ${s.limitations ? `<div class="limitations"><strong>Limitations:</strong> ${s.limitations}</div>` : ""}
+          <div class="sources">
+            <strong>Sources</strong>
+            ${s.sources.map(src => `<a href="${src.url}" target="_blank" rel="noopener">${src.label} <span class="source-type">(${src.type})</span></a>`).join("")}
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function renderMatrix() {
+      const grid = document.getElementById("matrix-dots");
+      const legend = document.getElementById("matrix-legend");
+      STORIES.forEach(s => {
+        const dot = document.createElement("div");
+        dot.className = `matrix-dot ${s.severity}`;
+        dot.style.left = `${s.matrix.x * 100}%`;
+        dot.style.bottom = `${s.matrix.y * 100}%`;
+        dot.title = s.matrix.label;
+        grid.appendChild(dot);
+      });
+      legend.innerHTML = STORIES.map(s =>
+        `<span><span class="matrix-dot ${s.severity}" style="position:static;display:inline-block;transform:none;width:8px;height:8px"></span> ${s.matrix.label}</span>`
+      ).join("");
+    }
+
+    document.getElementById("filters").addEventListener("click", e => {
+      if (!e.target.classList.contains("filter-btn")) return;
+      document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+      e.target.classList.add("active");
+      renderStories(e.target.dataset.filter);
+    });
+
+    renderStories();
+    renderMatrix();
+  </script>
+</body>
+</html>
